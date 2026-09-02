@@ -1,0 +1,1197 @@
+{
+  "info": {
+    "_postman_id": "ba3ee732-9e62-444c-99d5-a201901c4bdc",
+    "name": "User API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57859622",
+    "_collection_link": "https://go.postman.co/collection/57859622-ba3ee732-9e62-444c-99d5-a201901c4bdc?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Happy flow",
+          "item": [
+            {
+              "name": "Get user token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains a token\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"token\");",
+                      "    pm.expect(jsonData.token).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.token.length).to.be.above(0);",
+                      "    pm.environment.set(\"user_token\", jsonData.token);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userName\": \"john@doe.com\",\r\n    \"Password\": \"veryStrongPassword\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/user/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Fail flows",
+          "item": [
+            {
+              "name": "Get user token - empty request body",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing username or password returns status 400 Bad Request\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing username or password returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"message\");",
+                      "    pm.expect(jsonData.message).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.message).to.include(\"Username or password is missing\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/user/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user token - no userName",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing username or password returns status 400 Bad Request\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing username or password returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"message\");",
+                      "    pm.expect(jsonData.message).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.message).to.include(\"Username or password is missing\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"Password\": \"veryStrongPassword\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/user/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user token - no Password",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing username or password returns status 400 Bad Request\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing username or password returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"message\");",
+                      "    pm.expect(jsonData.message).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.message).to.include(\"Username or password is missing\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"userName\": \"john@doe.com\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/user/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "user",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User's second item information",
+      "item": [
+        {
+          "name": "Happy flow",
+          "item": [
+            {
+              "name": "Get user items",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has an array with at least 2 items\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData[0]).to.have.property(\"items\");",
+                      "    pm.expect(jsonData[0].items).to.be.an('array');",
+                      "    pm.expect(jsonData[0].items.length).to.be.above(1);",
+                      "    pm.environment.set(\"item_id\", jsonData[0].items[1]);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/items?limit=2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "items"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user item",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has item data with id that matches request id\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData[0]).to.have.property(\"id\");",
+                      "    pm.expect(jsonData[0].id).to.be.an('string');",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "    pm.expect(jsonData[0].id).eq(pm.environment.get(\"item_id\"));",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/{{item_id}}/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "{{item_id}}",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Fail flows",
+          "item": [
+            {
+              "name": "Get user items - no token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/items?limit=2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "items"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user items - wrong token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "123abc",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/items?limit=2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "items"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user item - no token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/{{item_id}}/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "{{item_id}}",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user item - wrong token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "123abc",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/{{item_id}}/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "{{item_id}}",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user item - wrong item id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Wrong item id returns status 403 Forbidden\", function () {",
+                      "    pm.response.to.have.status(403);",
+                      "});",
+                      "",
+                      "pm.test(\"Wrong item id returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"Access forbidden.\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/123abc/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "123abc",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User's item information validation",
+      "item": [
+        {
+          "name": "Happy flow",
+          "item": [
+            {
+              "name": "Get user items",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has an array with at least 1 item\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData[0]).to.have.property(\"items\");",
+                      "    pm.expect(jsonData[0].items).to.be.an('array');",
+                      "    pm.expect(jsonData[0].items.length).to.be.above(0);",
+                      "    pm.environment.set(\"item_id\", jsonData[0].items[0]);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/items?limit=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "items"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get user item",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const files_schema = {",
+                      "    type: \"array\",",
+                      "    items: {",
+                      "        type: \"object\",",
+                      "        properties: {",
+                      "            id: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            name: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            size: {",
+                      "                type: \"number\"",
+                      "            },",
+                      "            content_path: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "        },",
+                      "        required: [\"id\", \"name\", \"size\", \"content_path\"]",
+                      "    }",
+                      "};",
+                      "pm.environment.set(\"files_schema\", JSON.stringify(files_schema));",
+                      "const fields_schema = {",
+                      "    type: \"array\",",
+                      "    items: {",
+                      "        type: \"object\",",
+                      "        properties: {",
+                      "            id: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            label: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            type: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            value: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "        },",
+                      "        required: [\"id\", \"label\", \"type\", \"value\"]",
+                      "    }",
+                      "};",
+                      "pm.environment.set(\"fields_schema\", JSON.stringify(fields_schema));",
+                      "const shares_schema = {",
+                      "    type: \"array\",",
+                      "    items: {",
+                      "        type: \"object\",",
+                      "        properties: {",
+                      "            user_uuid: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            email: {",
+                      "                type: \"string\",",
+                      "                format: \"email\"",
+                      "            },",
+                      "            status: {",
+                      "                type: \"string\"",
+                      "            },",
+                      "            updated_at: {",
+                      "                type: \"string\",",
+                      "                format: \"date-time\"",
+                      "            },",
+                      "        },",
+                      "        required: [\"user_uuid\", \"email\", \"status\", \"updated_at\"]",
+                      "    }",
+                      "};",
+                      "",
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has item data with all correct fields\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.be.a(\"array\");",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"id\");",
+                      "    pm.expect(jsonData[0].id).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"title\");",
+                      "    pm.expect(jsonData[0].title).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"tags\");",
+                      "    pm.expect(jsonData[0].tags).to.be.a(\"array\");",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"files\");",
+                      "    pm.expect(jsonData[0].files).to.be.a(\"array\");",
+                      "    pm.expect(jsonData[0].files).to.have.jsonSchema(files_schema);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"fields\");",
+                      "    pm.expect(jsonData[0].fields).to.be.a(\"array\");",
+                      "    pm.expect(jsonData[0].fields).to.have.jsonSchema(fields_schema);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"shares\");",
+                      "    pm.expect(jsonData[0].shares).to.be.a(\"array\");",
+                      "    pm.expect(jsonData[0].shares).to.have.jsonSchema(shares_schema);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"created_at\");",
+                      "    pm.expect(jsonData[0].created_at).to.have.jsonSchema({ type: \"string\", format: \"date-time\" });",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"updated_at\");",
+                      "    pm.expect(jsonData[0].updated_at).to.have.jsonSchema({ type: \"string\", format: \"date-time\" });",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/user/{{item_id}}/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "{{item_id}}",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Create new item",
+      "item": [
+        {
+          "name": "Happy flow",
+          "item": [
+            {
+              "name": "Create user item - only required fields",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has item data with required fields\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.be.a(\"array\");",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"id\");",
+                      "    pm.expect(jsonData[0].id).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"title\");",
+                      "    pm.expect(jsonData[0].title).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].title.length).to.be.above(0);",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"123abc\",\r\n    \"title\": \"Test title\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create user item - all fields",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "    pm.response.to.have.status(201);",
+                      "});",
+                      "",
+                      "pm.test(\"Response has item data with all correct fields\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.be.a(\"array\");",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"id\");",
+                      "    pm.expect(jsonData[0].id).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"title\");",
+                      "    pm.expect(jsonData[0].title).to.be.a(\"string\");",
+                      "    pm.expect(jsonData[0].id.length).to.be.above(0);",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"tags\");",
+                      "    pm.expect(jsonData[0].tags).to.be.a(\"array\");",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"files\");",
+                      "    pm.expect(jsonData[0].files).to.be.a(\"array\");",
+                      "    pm.expect(jsonData[0].files).to.have.jsonSchema(JSON.parse(pm.environment.get(\"files_schema\")));",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"fields\");",
+                      "    pm.expect(jsonData[0].fields).to.be.a(\"array\");",
+                      "    pm.expect(jsonData[0].fields).to.have.jsonSchema(JSON.parse(pm.environment.get(\"fields_schema\")));",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"created_at\");",
+                      "    pm.expect(jsonData[0].created_at).to.have.jsonSchema({ type: \"string\", format: \"date-time\" });",
+                      "",
+                      "    pm.expect(jsonData[0]).to.have.property(\"updated_at\");",
+                      "    pm.expect(jsonData[0].updated_at).to.have.jsonSchema({ type: \"string\", format: \"date-time\" });",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"123abc\",\r\n    \"title\": \"test title\",\r\n    \"tags\": [\r\n        \"test tag\"\r\n    ],\r\n    \"files\": [\r\n        {\r\n            \"id\": \"456def\",\r\n            \"name\": \"test name\",\r\n            \"size\": 1,\r\n            \"content_path\": \"test/path\"\r\n        }\r\n    ],\r\n    \"fields\": [\r\n        {\r\n            \"id\": \"789ghi\",\r\n            \"label\": \"test label\",\r\n            \"type\": \"test type\",\r\n            \"value\": \"test value\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Fail flows",
+          "item": [
+            {
+              "name": "Create user item - required field missing",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing required field returns status 400 Bad Request\", function () {",
+                      "    pm.response.to.have.status(400);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing required field returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"message\");",
+                      "    pm.expect(jsonData.message).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.message).to.include(\"id or title is missing\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"123abc\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create user item - no token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"string\",\r\n    \"title\": \"string\",\r\n    \"tags\": [\r\n        \"string\"\r\n    ],\r\n    \"files\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"name\": \"string\",\r\n            \"size\": 0,\r\n            \"content_path\": \"string\"\r\n        }\r\n    ],\r\n    \"fields\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"label\": \"string\",\r\n            \"type\": \"string\",\r\n            \"value\": \"string\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create user item - wrong token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Missing Bearer token returns status 401 Unauthorized\", function () {",
+                      "    pm.response.to.have.status(401);",
+                      "});",
+                      "",
+                      "pm.test(\"Missing Bearer token returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"User is not authorized\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "123abc",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"string\",\r\n    \"title\": \"string\",\r\n    \"tags\": [\r\n        \"string\"\r\n    ],\r\n    \"files\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"name\": \"string\",\r\n            \"size\": 0,\r\n            \"content_path\": \"string\"\r\n        }\r\n    ],\r\n    \"fields\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"label\": \"string\",\r\n            \"type\": \"string\",\r\n            \"value\": \"string\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create user item - wrong item id",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Wrong item id returns status 403 Forbidden\", function () {",
+                      "    pm.response.to.have.status(403);",
+                      "});",
+                      "",
+                      "pm.test(\"Wrong item id returns an error message\", function () {",
+                      "    var jsonData = pm.response.json();",
+                      "    pm.expect(jsonData).to.have.property(\"error\");",
+                      "    pm.expect(jsonData.error).to.be.a(\"string\");",
+                      "    pm.expect(jsonData.error).to.include(\"Access forbidden.\");",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{user_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"id\": \"123abc\",\r\n    \"title\": \"string\",\r\n    \"tags\": [\r\n        \"string\"\r\n    ],\r\n    \"files\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"name\": \"string\",\r\n            \"size\": 0,\r\n            \"content_path\": \"string\"\r\n        }\r\n    ],\r\n    \"fields\": [\r\n        {\r\n            \"id\": \"string\",\r\n            \"label\": \"string\",\r\n            \"type\": \"string\",\r\n            \"value\": \"string\"\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/item",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "item"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
